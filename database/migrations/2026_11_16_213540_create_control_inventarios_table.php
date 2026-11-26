@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('control_inventarios');
+        Schema::dropIfExists('control_inventario_diario');
     }
 };

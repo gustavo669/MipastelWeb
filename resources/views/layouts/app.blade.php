@@ -9,6 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="/css/mipastel.css">
+  @include('partials.pwa-head')
 </head>
 <body>
 
@@ -53,6 +54,7 @@
       </ul>
       <div class="d-flex align-items-center gap-2 mt-2 mt-xl-0">
         <span class="chip {{ $esAdmin ? 'd-inline-flex d-xl-none d-xxl-inline-flex' : '' }}">{{ $esAdmin ? 'Administrador' : ($usuario?->sucursal?->nombre ?? 'Sin sucursal') }}</span>
+        <button id="btnInstalar" class="btn btn-sm btn-outline-primary d-none" type="button"><i class="fa-solid fa-download me-1"></i>Instalar app</button>
         <form method="POST" action="/logout" class="m-0">
           @csrf
           <button class="btn btn-sm btn-outline-danger" type="submit">Salir</button>
@@ -67,6 +69,7 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+@include('partials.pwa-script')
 @stack('scripts')
 </body>
 </html>

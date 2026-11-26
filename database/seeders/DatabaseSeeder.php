@@ -2,39 +2,56 @@
 
 namespace Database\Seeders;
 
+use App\Models\Precio;
+use App\Models\Sucursal;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
+    /** Sucursales de Mi Pastel. */
+    private const SUCURSALES = [
+        'Jutiapa 1', 'Jutiapa 2', 'Jutiapa 3', 'Progreso', 'Quesada',
+        'Acatempa', 'Yupiltepeque', 'Atescatempa', 'Adelanto', 'Jeréz', 'Comapa', 'Carina',
+    ];
 
     /**
-     * Seed the application's database.
+     * Es seguro ejecutarlo varias veces: no cambia la contraseña de un admin que ya existe.
+     * Los usuarios de cada sucursal se crean con `php artisan mipastel:usuarios`.
      */
     public function run(): void
-{
-    $this->call(ProductoSeeder::class);
-    $sucursales = ['Jutiapa 1', 'Jutiapa 2', 'Jutiapa 3', 'Progreso', 'Quesada',
-        'Acatempa', 'Yupiltepeque', 'Atescatempa', 'Adelanto', 'Jeréz', 'Comapa', 'Carina'];
+    {
+        $this->call(ProductoSeeder::class);
+        // Los precios se cargan solo la primera vez: así volver a sembrar no pisa los que el admin ya cambió
+        if (! Precio::exists()) {
+            $this->call(PrecioSeeder::class);
+        }
 
-    foreach ($sucursales as $nombre) {
-        \App\Models\Sucursal::firstOrCreate(['nombre' => $nombre]);
+        foreach (self::SUCURSALES as $nombre) {
+            Sucursal::firstOrCreate(['nombre' => $nombre]);
+        }
+
+        $correo = config('mipastel.admin_email');
+
+        if (User::where('email', $correo)->exists()) {
+            return;
+        }
+
+        $clave = config('mipastel.admin_password') ?: Str::password(12, symbols: false);
+
+        User::create([
+            'name' => 'Administrador',
+            'email' => $correo,
+            'password' => Hash::make($clave),
+            'rol' => 'admin',
+            'sucursal_id' => null,
+        ]);
+
+        if (! config('mipastel.admin_password')) {
+            $this->command?->warn("Administrador creado: {$correo} / {$clave}");
+            $this->command?->warn('Guarda esta contraseña ahora: no se puede volver a ver.');
+        }
     }
-
-    \App\Models\User::updateOrCreate(
-        ['email' => 'admin@mipastel.test'],
-        ['name' => 'Administrador', 'password' => \Hash::make('cambiar123'),
-         'rol' => 'admin', 'sucursal_id' => null]
-    );
-
-    $atescatempa = \App\Models\Sucursal::where('nombre', 'Atescatempa')->first();
-    \App\Models\User::updateOrCreate(
-        ['email' => 'atescatempa@mipastel.test'],
-        ['name' => 'Tienda Atescatempa', 'password' => \Hash::make('cambiar123'),
-         'rol' => 'sucursal', 'sucursal_id' => $atescatempa->id]
-    );
-}
-
 }

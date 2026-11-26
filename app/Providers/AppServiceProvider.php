@@ -12,6 +12,7 @@ use Illuminate\Auth\Events\Lockout;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // La app instalable (PWA) solo funciona con HTTPS
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
+
         PedidoNormal::observe(AuditoriaObserver::class);
         PedidoCliente::observe(AuditoriaObserver::class);
         Precio::observe(AuditoriaObserver::class);

@@ -26,7 +26,10 @@ return new class extends Migration
             $table->string('sabor_personalizado', 100)->nullable();
             $table->index(['fecha', 'sucursal_id']);
         });
-        DB::statement('ALTER TABLE pedidos_normales AUTO_INCREMENT = 10000');
+        // Los folios arrancan en 10000 (solo MySQL/MariaDB; en SQLite, que usan las pruebas, no aplica)
+        if (in_array(DB::getDriverName(), ['mysql', 'mariadb'], true)) {
+            DB::statement('ALTER TABLE pedidos_normales AUTO_INCREMENT = 10000');
+        }
     }
 
     /**
@@ -34,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pedidos_normals');
+        Schema::dropIfExists('pedidos_normales');
     }
 };

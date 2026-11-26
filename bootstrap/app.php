@@ -13,6 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias(['rol' => \App\Http\Middleware\RolMiddleware::class]);
+
+        // Detrás del proxy del hosting (Render, Railway, Nginx...) para que Laravel vea el HTTPS y la IP real
+        // de cada sucursal; sin esto, el historial de auditoría guardaría siempre la IP del proxy.
+        $middleware->trustProxies(at: env('TRUSTED_PROXIES', '*'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

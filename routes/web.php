@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/dashboard');
 
+// Aviso que el service worker muestra cuando no hay internet (debe ser público)
+Route::view('/offline', 'offline');
+
 // Solo para quien aún no inició sesión
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

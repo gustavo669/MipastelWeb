@@ -29,7 +29,10 @@ return new class extends Migration
             $table->dateTime('fecha_entrega')->nullable();
             $table->index(['fecha', 'sucursal_id']);
         });
-        DB::statement('ALTER TABLE pedidos_clientes AUTO_INCREMENT = 10000');
+        // Los folios arrancan en 10000 (solo MySQL/MariaDB; en SQLite, que usan las pruebas, no aplica)
+        if (in_array(DB::getDriverName(), ['mysql', 'mariadb'], true)) {
+            DB::statement('ALTER TABLE pedidos_clientes AUTO_INCREMENT = 10000');
+        }
     }
 
     /**
