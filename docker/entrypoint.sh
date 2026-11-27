@@ -8,6 +8,12 @@ if [ -n "$PORT" ]; then
   sed -ri "s/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf
 fi
 
+MODS_DIR="${APACHE_MODS_DIR:-/etc/apache2/mods-enabled}"
+echo "MPM antes de limpiar: $(ls "$MODS_DIR" 2>/dev/null | grep -i '^mpm_' | tr '\n' ' ')"
+rm -f "$MODS_DIR"/mpm_event.* "$MODS_DIR"/mpm_worker.*
+a2enmod mpm_prefork >/dev/null 2>&1 || true
+echo "MPM después de limpiar: $(ls "$MODS_DIR" 2>/dev/null | grep -i '^mpm_' | tr '\n' ' ')"
+
 # Si hay un volumen montado en storage, asegura la estructura y el enlace público de las fotos
 mkdir -p storage/app/public/uploads storage/framework/cache storage/framework/sessions storage/framework/views storage/logs
 chown -R www-data:www-data storage bootstrap/cache
