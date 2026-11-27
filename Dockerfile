@@ -4,8 +4,7 @@ FROM composer:2 AS vendor
 WORKDIR /app
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-interaction --no-progress --no-scripts --prefer-dist --optimize-autoloader
-RUN echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf \
-    && a2enconf servername
+
 FROM php:8.3-apache
 
 # pdo_mysql: base de datos · gd: logo en los PDF (dompdf) · mbstring/zip/intl: Laravel y dompdf
@@ -15,6 +14,9 @@ RUN apt-get update \
     && docker-php-ext-install -j"$(nproc)" pdo_mysql gd zip intl bcmath opcache \
     && a2enmod rewrite headers \
     && rm -rf /var/lib/apt/lists/*
+
+RUN echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf \
+    && a2enconf servername
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri "s#/var/www/html#${APACHE_DOCUMENT_ROOT}#g" /etc/apache2/sites-available/*.conf /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
