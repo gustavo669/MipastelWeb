@@ -25,7 +25,7 @@
           @endforeach
         </select>
       </div>
-      <div class="col-12 col-md-5 d-flex gap-1 flex-wrap">
+      <div class="col-12 col-md-5 d-flex gap-1 flex-wrap filtros-acciones">
         <button type="button" class="btn btn-outline-primary" data-rango="hoy" aria-pressed="false">Hoy</button>
         <button type="button" class="btn btn-outline-primary" data-rango="semana" aria-pressed="false">Esta semana</button>
         <button type="button" class="btn btn-outline-primary" data-rango="mes" aria-pressed="false">Este mes</button>

@@ -45,7 +45,7 @@
         </select>
       </div>
     </div>
-    <div class="d-flex gap-1 flex-wrap mt-3">
+    <div class="d-flex gap-1 flex-wrap mt-3 filtros-acciones">
       <button type="button" class="btn btn-outline-primary btn-sm" data-rango="hoy" aria-pressed="false">Hoy</button>
       <button type="button" class="btn btn-outline-primary btn-sm" data-rango="semana" aria-pressed="false">Esta semana</button>
       <button type="button" class="btn btn-outline-primary btn-sm" data-rango="mes" aria-pressed="false">Este mes</button>
@@ -54,9 +54,9 @@
   </div>
 
   <div class="tarjeta">
-    <div class="d-flex justify-content-between align-items-center mb-2">
+    <div class="d-flex justify-content-between align-items-center mb-2 auditoria-cabecera">
       <h5 class="titulo mb-0">Historial <span class="badge bg-secondary" id="total">0</span></h5>
-      <div class="d-flex align-items-center gap-2">
+      <div class="d-flex align-items-center gap-2 auditoria-paginacion">
         <button type="button" class="btn btn-sm btn-outline-secondary btn-paginacion-auditoria" id="btnAnterior" aria-label="Anterior" title="Anterior" disabled><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
         <span class="small text-muted" id="infoPagina">Página 1 de 1</span>
         <button type="button" class="btn btn-sm btn-outline-secondary btn-paginacion-auditoria" id="btnSiguiente" aria-label="Siguiente" title="Siguiente" disabled><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>

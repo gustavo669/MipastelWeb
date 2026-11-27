@@ -488,8 +488,33 @@ hr { border-color: var(--border-pink); opacity: 1; }
   .tile { min-height: 112px; padding: 1.1rem; border-radius: 18px; }
   .tile h5 { font-size: 1.05rem; }
   .tile p { line-height: 1.35; }
-  .btn { display: block; margin-right: auto; margin-left: auto; }
+  .btn { margin: 0; }
   .btn-lg { width: 100%; }
+  .filtros-acciones {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem !important;
+  }
+  .filtros-acciones .btn { width: 100%; }
+  .filtros-acciones--tres .btn:last-child {
+    grid-column: 1 / -1;
+    width: calc(50% - 0.25rem);
+    justify-self: center;
+  }
+  .nav-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .nav-tabs .nav-item,
+  .nav-tabs .nav-link { width: 100%; }
+  .nav-tabs .nav-link { min-height: 44px; }
+  .auditoria-cabecera {
+    flex-direction: column;
+    align-items: center !important;
+    gap: 0.75rem;
+  }
+  .auditoria-cabecera .titulo { text-align: center; }
+  .auditoria-paginacion { justify-content: center; width: 100%; }
   .rejilla-formulario { grid-template-columns: 1fr 105px; }
   .login-card { padding: 1.6rem 1.1rem; }
   .login-logo img { width: min(100%, 320px); }

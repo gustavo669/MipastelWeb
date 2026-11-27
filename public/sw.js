@@ -5,7 +5,7 @@
  * sucursal y deben venir siempre del servidor. Sin internet, las páginas muestran /offline.
  * Para forzar que todos los celulares se actualicen, sube el número de VERSION.
  */
-const VERSION = 'mipastel-v2';
+const VERSION = 'mipastel-v3';
 const PRECACHE = ['/offline', '/css/mipastel.css', '/Logo.png', '/icons/icon-192.png'];
 const CDN = ['cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 

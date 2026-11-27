@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <div class="d-flex gap-1 flex-wrap mt-3">
+    <div class="d-flex gap-1 flex-wrap mt-3 filtros-acciones filtros-acciones--tres">
       <button type="button" class="btn btn-outline-primary btn-sm" data-rango="hoy" aria-pressed="false">Hoy</button>
       <button type="button" class="btn btn-outline-primary btn-sm" data-rango="semana" aria-pressed="false">Esta semana</button>
       <button type="button" class="btn btn-outline-primary btn-sm" data-rango="mes" aria-pressed="false">Este mes</button>
