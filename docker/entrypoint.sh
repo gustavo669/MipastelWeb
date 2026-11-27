@@ -8,6 +8,8 @@ if [ -n "$PORT" ]; then
   sed -ri "s/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf
 fi
 
+# Railway agrega módulos MPM extra al arrancar el contenedor y Apache solo admite uno
+# (error AH00534 "More than one MPM loaded"). Con mod_php el correcto es mpm_prefork.
 MODS_DIR="${APACHE_MODS_DIR:-/etc/apache2/mods-enabled}"
 echo "MPM antes de limpiar: $(ls "$MODS_DIR" 2>/dev/null | grep -i '^mpm_' | tr '\n' ' ')"
 rm -f "$MODS_DIR"/mpm_event.* "$MODS_DIR"/mpm_worker.*

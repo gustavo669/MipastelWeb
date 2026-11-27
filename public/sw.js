@@ -5,13 +5,16 @@
  * sucursal y deben venir siempre del servidor. Sin internet, las páginas muestran /offline.
  * Para forzar que todos los celulares se actualicen, sube el número de VERSION.
  */
-const VERSION = 'mipastel-v1';
+const VERSION = 'mipastel-v2';
 const PRECACHE = ['/offline', '/css/mipastel.css', '/Logo.png', '/icons/icon-192.png'];
 const CDN = ['cdn.jsdelivr.net', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(VERSION).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting())
+    caches.open(VERSION)
+      // uno por uno: si algún archivo falla, el service worker se instala igual
+      .then((cache) => Promise.all(PRECACHE.map((url) => cache.add(url).catch(() => {}))))
+      .then(() => self.skipWaiting())
   );
 });
 

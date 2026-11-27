@@ -30,6 +30,7 @@
       @endif
       <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">Ingresar</button>
     </form>
+    <button id="btnInstalar" class="btn btn-outline-primary w-100 mt-3 d-none" type="button">Instalar app en este dispositivo</button>
   </div>
 </div>
 @include('partials.pwa-script')

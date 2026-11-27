@@ -57,9 +57,9 @@
     <div class="d-flex justify-content-between align-items-center mb-2">
       <h5 class="titulo mb-0">Historial <span class="badge bg-secondary" id="total">0</span></h5>
       <div class="d-flex align-items-center gap-2">
-        <button type="button" class="btn btn-sm btn-outline-secondary" id="btnAnterior" disabled>&laquo; Anterior</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary btn-paginacion-auditoria" id="btnAnterior" aria-label="Anterior" title="Anterior" disabled><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
         <span class="small text-muted" id="infoPagina">Página 1 de 1</span>
-        <button type="button" class="btn btn-sm btn-outline-secondary" id="btnSiguiente" disabled>Siguiente &raquo;</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary btn-paginacion-auditoria" id="btnSiguiente" aria-label="Siguiente" title="Siguiente" disabled><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
       </div>
     </div>
     <div class="table-responsive">
