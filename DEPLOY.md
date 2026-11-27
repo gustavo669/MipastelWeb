@@ -89,6 +89,10 @@ ADMIN_EMAIL=tu-correo@ejemplo.com
 
 - Las líneas con `${{ ... }}` son **referencias**: Railway las reemplaza con los datos reales de MySQL. Si renombraste
   el servicio de la base, cambia `MySQL` por ese nombre.
+- **Comprueba que no quedaron vacías:** en la pestaña Variables de la app, `DB_HOST`, `DB_PORT`, `DB_DATABASE`,
+  `DB_USERNAME` y `DB_PASSWORD` deben mostrar valores reales (el host normalmente termina en `.railway.internal` y el
+  puerto es `3306`). Si salen vacías, el nombre dentro de `${{ ... }}` no coincide con el de tu servicio de MySQL:
+  cópialo tal cual aparece en el lienzo, con las mismas mayúsculas.
 - **APP_KEY:** genera una con `php artisan key:generate --show`, o con `openssl rand -base64 32` y antepón `base64:`.
   Guárdala: si cambia, se cierran todas las sesiones.
 - **ADMIN_PASSWORD** es opcional. Si no la defines, el sistema crea una contraseña aleatoria y la muestra una sola vez (paso 8).
@@ -115,6 +119,8 @@ Haz **Redeploy** del servicio de la app y abre **View logs**. Lo normal al arran
 
 - Puede aparecer `Base de datos no disponible todavía (intento N/20)`: la base estaba despertando. Es esperado y se
   reintenta solo hasta por 1 minuto.
+- Si los reintentos llegan a 20/20, el contenedor se detiene y Railway muestra "Application failed to respond":
+  la app ni siquiera llegó a arrancar. Mira la tabla de problemas comunes.
 - Luego deben verse las migraciones (`DONE`) y el servidor Apache arrancado.
 
 Abre el dominio: debes ver la pantalla de inicio de sesión de Mi Pastel.
@@ -168,8 +174,9 @@ el volumen de fotos junto con MySQL.
 
 | Síntoma | Qué revisar |
 |---|---|
-| Pantalla "Application failed to respond" o el contenedor se reinicia | Mira *View logs*. Casi siempre falta una variable o la base no respondió. |
+| Pantalla "Application failed to respond" o el contenedor se reinicia | Mira *View logs*. Si la base falló, la app no arranca. Si los logs están bien y Apache arrancó, revisa en *Settings → Networking* que el *target port* del dominio coincida con el valor de `PORT` (o quítalo para que sea automático). |
 | `No application encryption key has been specified` | Falta `APP_KEY`. |
+| Logs con `Host: , Port: , Database:` **vacíos** y `[2002] No such file or directory` | Las variables `DB_*` se resolvieron vacías: el nombre en `${{...}}` no coincide con el de tu servicio de MySQL, o MySQL no está en el mismo proyecto y entorno. Corrige el nombre, o pega los valores reales copiándolos de la pestaña Variables del servicio MySQL. |
 | `SQLSTATE ... Connection refused` o `Unknown host` | Las referencias `${{MySQL...}}` no coinciden con el nombre del servicio de la base, o MySQL está dormida (reintenta). |
 | La página se ve sin estilos o la sesión se cierra sola | `APP_URL` debe ser `https://...` y `SESSION_SECURE_COOKIE=true`. |
 | Las fotos desaparecen tras un despliegue | El volumen no está conectado al servicio de la app o el mount path no es exactamente `/var/www/html/storage/app/public`. |

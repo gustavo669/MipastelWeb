@@ -4,7 +4,8 @@ FROM composer:2 AS vendor
 WORKDIR /app
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-interaction --no-progress --no-scripts --prefer-dist --optimize-autoloader
-
+RUN echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf \
+    && a2enconf servername
 FROM php:8.3-apache
 
 # pdo_mysql: base de datos · gd: logo en los PDF (dompdf) · mbstring/zip/intl: Laravel y dompdf
