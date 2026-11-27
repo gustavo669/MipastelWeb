@@ -16,6 +16,9 @@ RUN apt-get update \
     && a2enmod mpm_prefork rewrite headers \
     && rm -rf /var/lib/apt/lists/*
 
+RUN echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf \
+    && a2enconf servername
+
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri "s#/var/www/html#${APACHE_DOCUMENT_ROOT}#g" /etc/apache2/sites-available/*.conf /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
